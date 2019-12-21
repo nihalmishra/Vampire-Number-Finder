@@ -1,10 +1,22 @@
 ## **README**
 
-## **Group Member Names -**
+## **Group Member Names**
 
 Nihal Mishra
 
 Saurabh Kumar Prasad
+
+## **Problem definition**
+
+An interesting kind of number in mathematics is vampire number. A vampire number is a composite (Links to an external site.) natural number with an even number of digits, that can be factored into two natural numbers each with half as many digits as the original number and not both with trailing zeroes, where the two factors contain precisely all the digits of the original number, in any order, counting multiplicity. A classic example is: 1260 = 21 x 60.
+
+A vampire number can have multiple distinct pairs of fangs. A vampire numbers with 2 pairs of fangs is: 125460 = 204 × 615 = 246 × 510.
+
+The overall goal of this project is to find all Vampire numbers starting at first upto last using Elixir and the Actor Model to build a good solution to this problem that runs well on multi-core machines.
+
+## **Actor modeling**
+
+In this project, we exclusively used the actor facility in Elixir. In particular, we defined worker actors that are given a range of problems to solve and a boss that keeps track of all the problems and perform the job assignment.
 
 ## **Steps to run code**
 
@@ -13,9 +25,10 @@ Saurabh Kumar Prasad
 3. Run `mix run proj1.exs 100000 200000`
 
 ## **Project Design Architecture**
-| Modules->   | App              | MainSupervisor | BossServer           | ComputationWorker     | Vampire           |
+
+| Modules   | App              | MainSupervisor | BossServer           | ComputationWorker     | Vampire           |
 | ----------- | -----------      | -----------    | -----------          | -----------           | -----------       |
-| Functions-> | main(arg_1,arg_2)| start_boss     | handle_call(:process)| handle_cast(:compute) | find_vampire(list)|
+| **Functions** | main(arg_1,arg_2)| start_boss     | handle_call(:process)| handle_cast(:compute) | find_vampire(list)|
 |             |                  | add_worker     | start_workers(count) |                       |                   |
 |             |                  | remove_worker  | distribute_work      |                       |                   |
 |             |                  |                | handle_cast(:print)  |                       |                   |
@@ -32,7 +45,7 @@ For Prasad's PC (2 core CPU with 2 threads each), the no. of workers created = 4
 
 The work unit size has been computed dynamically to evenly balance the work load on each worker. We used the `distribute_work/3` function in `BossServer`to delegate the work units.
 
-In cases, where the range starts from small and goes up to a large number, a traditional sequential distribution would result in some workers having relatively easy (small) numbers to work on and other would have large numbers. 
+In cases, where the range starts from small and goes up to a large number, a traditional sequential distribution would result in some workers having relatively easy (small) numbers to work on and other would have large numbers.
 
 To achieve a better load balance, we grouped the range by a modulo function on input and worker count, so that each worker has a good mix of small and large numbers.
 
@@ -42,7 +55,7 @@ Work unit size = 12500
 
 ## **Result of `mix run proj1.exs 100000 200000`**
 
-```
+```bash
 108135 135 801
 117067 167 701
 124483 281 443
@@ -109,13 +122,13 @@ sys     0m50.031s
 ## **CPU Utilization**
 
 Hardware - Prasad's PC  
-Physical Cores - 2   
-Logical Cores - 4   
-**Ratio (CPU time/Real time) : 3.265** 
+Physical Cores - 2
+Logical Cores - 4
+**Ratio (CPU time/Real time) : 3.265**
 
-Hardware - Mishra's PC   
-Physical Cores - 4   
-Logical Cores - 8   
+Hardware - Mishra's PC
+Physical Cores - 4
+Logical Cores - 8
 **Ratio (CPU time/Real time) : (242.72s/34.03s) = 7.132**
 
 CPU Utilization Chart
@@ -123,8 +136,5 @@ CPU Utilization Chart
 
 ## **Largest problem solved**
 
-10-digit numbers between 1001795848 1001795859. Vampire number found : 1 using 8 workers
-
-
-
-
+10-digit numbers between 1001795848 and 1001795859.  
+1 Vampire number found using 8 workers.
